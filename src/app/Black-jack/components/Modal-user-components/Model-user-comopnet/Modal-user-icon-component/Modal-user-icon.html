@@ -1,0 +1,18 @@
+<!-- BOTÓN PARA ABRIR EL MODAL -->
+<button
+  (click)="mostrarModal()"
+  class="flex items-center gap-2 text-white text-2xl cursor-pointer hover:scale-105 transition px-3 py-1 rounded absolute top-15 left-25"
+>
+  <i class="fa-solid fa-user text-7xl"></i>
+  <span class="font-medium">Usuario</span>
+</button>
+
+
+
+<!-- MODAL: solo se renderiza si openModal es true -->
+@if (ModalState()){
+  <modal-user-container
+    [openModal]="ModalState"
+    (closeModal)="ModalState.set(false)"
+  ></modal-user-container>
+}

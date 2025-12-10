@@ -1,0 +1,42 @@
+    <!-- Formulario -->
+    <form class="space-y-4">
+
+      <!-- IMAGEN DE PERFIL -->
+      <div class="flex flex-col items-center">
+        <label class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer overflow-hidden">
+          <input type="file" class="hidden" />
+          <span class="text-gray-500 text-sm">Foto</span>
+        </label>
+      </div>
+
+      <!-- ALIAS -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Alias</label>
+        <input type="text" class="w-full border rounded-lg p-2 focus:ring focus:ring-blue-200" placeholder="Tu alias...">
+      </div>
+
+      <!-- NOMBRE -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Contraseña</label>
+        <input type="password" class="w-full border rounded-lg p-2 focus:ring focus:ring-blue-200" placeholder="Contraseña">
+      </div>
+
+      <div>
+          <label class="block text-sm font-medium mb-1">Slogan</label>
+
+          <select class="w-full border rounded-lg p-2 focus:ring focus:ring-blue-200"
+>         <!-- Aquí pondrás tus <option> dinámicas --></select>
+      </div>
+
+      <modal-user-frame-icon-component
+
+      ></modal-user-frame-icon-component>
+
+      <!-- BOTÓN ENVIAR -->
+      <button
+        type="button"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+      >
+        Guardar
+      </button>
+    </form>

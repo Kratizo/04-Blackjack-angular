@@ -1,0 +1,18 @@
+
+
+
+
+  <a
+    [routerLink]="router()"
+    class="block w-64 h-100 rounded-lg overflow-hidden relative
+           bg-cover bg-center hover:scale-105 transition"
+       [style.background-image]="'url(' + imagen() + ')'"
+  >
+    <div class="absolute bottom-0 left-0 w-full p-4
+                bg-black/50 text-white backdrop-blur-sm">
+      <h2 class="text-xl font-bold text-center">{{ label() }}</h2>
+    </div>
+  </a>
+
+
+

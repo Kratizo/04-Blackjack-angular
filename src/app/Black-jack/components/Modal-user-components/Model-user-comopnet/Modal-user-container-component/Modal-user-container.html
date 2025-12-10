@@ -1,0 +1,27 @@
+
+<!-- MODAL (solo aparece cuando openModal = true) -->
+@if (openModal()) {
+<div
+  class="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-[9999]"
+>
+  <div class="bg-gray-300 rounded-2xl shadow-xl w-11/12 max-w-md p-6 animate-fadeIn">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Crear Perfil</h2>
+
+      <!-- BOTÓN CERRAR -->
+      <button (click)="close()">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-6 w-6 text-gray-600 hover:text-gray-900"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+      <modal-user-data-component></modal-user-data-component>
+
+  </div>
+</div>
+}

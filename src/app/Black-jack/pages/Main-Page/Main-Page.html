@@ -1,0 +1,42 @@
+<div class="min-h-screen flex flex-col flex-wrap gap-4">
+
+  <!-- Título arriba -->
+<div class="flex justify-center pt-8 bg-[rgba(0,0,0,0.5)]">
+<modal-user-icon></modal-user-icon>
+  <svg viewBox="0 0 600 120" class="w-full max-w-6xl h-44">
+    <!-- Curva del texto -->
+    <path id="curve" d="M20,100 Q300,20 580,100" fill="transparent"/>
+
+    <!-- Imagen al inicio, rotada -->
+<!-- Imagen al inicio, rotada -->
+    <g transform="translate(-80,50) rotate(-15,30,30)">
+      <image href="/assets/icons/AS.png" width="60" height="60"/>
+    </g>
+
+    <!-- Imagen al final, rotada -->
+    <g transform="translate(620,50) rotate(15,30,30)">
+      <image href="/assets/icons/AS.png" width="60" height="60"/>
+    </g>
+
+    <!-- Texto arqueado -->
+    <text font-size="100" font-weight="bold" class="fill-current text-white">
+      <textPath href="#curve" startOffset="50%" text-anchor="middle">
+        {{env.title}}
+      </textPath>
+    </text>
+  </svg>
+</div>
+
+  <!-- Contenido centrado -->
+  <div class="flex flex-wrap justify-center items-center gap-10 p-4 flex-1">
+    @for (item of cartPage(); track item.router) {
+      <card-mode-component
+        [imagen]="item.imagen"
+        [router]="item.router"
+        [label]="item.label"
+        [subLabel]="item.subLabel">
+      </card-mode-component>
+    }
+  </div>
+</div>
+

@@ -1,0 +1,20 @@
+  <div class="flex items-center gap-2">
+    <span class="font-medium">Marco:</span>
+    <button
+      type="button"
+      class="px-3 py-1  rounded-lg hover:bg-gray-300 transition flex items-center gap-1"
+      (click)="mostrarFrameModal()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16v16H4z" />
+      </svg>
+      Elegir Marco
+    </button>
+  </div>
+
+@if (openFrameModal()) {
+  <modal-user-frame-container
+  [openFrameModal]="openFrameModal()"
+  (closeFrameModal)="openFrameModal.set(false)"
+></modal-user-frame-container>
+}
