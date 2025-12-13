@@ -8,11 +8,11 @@ import { CardModeComponent } from '../../components/Card-mode-component/Card-mod
 
 
   @Component({
-    selector: 'main-page',
+    selector: 'Home-page',
     imports: [CardModeComponent],
-    templateUrl: './Main-Page.html',
+    templateUrl: './Home-Page.html',
   })
-  export  default class MainPage {
+  export  default class HomePage {
 
     env = environment;
 
