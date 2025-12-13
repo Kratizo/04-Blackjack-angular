@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
 
   {
-    path: 'Pagina Principal',
+    path: 'home',
     loadComponent: () =>
     import('./Black-jack/pages/Main-Page/Main-Page'),
 
@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
        path: 'PlayerVsPlayer',
        loadComponent: () =>
-       import('./Black-jack/pages/PvP page/PvP page')
+       import('./Black-jack/pages/PvP-page/PvP-page')
   },
   {
        path: 'Online',
@@ -29,7 +29,7 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'Pagina Principal'
+    redirectTo: 'home'
   }
 
 
