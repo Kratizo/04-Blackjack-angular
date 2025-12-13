@@ -28,7 +28,7 @@
 
   <!-- Contenido centrado -->
   <div class="flex flex-wrap justify-center items-center gap-10 p-4 flex-1">
-    @for (item of cartPage(); track item.router) {
+    @for (item of cardPages(); track item.router) {
       <card-mode-component
         [imagen]="item.imagen"
         [router]="item.router"
