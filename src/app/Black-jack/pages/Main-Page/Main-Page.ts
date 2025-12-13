@@ -2,14 +2,14 @@ import { Component, signal } from '@angular/core';
 import type { CartPage } from '../../Interfaces/CartPage-interface';
 import { environment } from '../../../../environments/environment';
 import { CardModeComponent } from '../../components/Card-mode-component/Card-mode-component';
-import { ModalUserIcon } from '../../components/Modal-user-components/Model-user-comopnet/Modal-user-icon-component/Modal-user-icon';
+
 
 
 
 
   @Component({
     selector: 'main-page',
-    imports: [ CardModeComponent ,ModalUserIcon],
+    imports: [CardModeComponent],
     templateUrl: './Main-Page.html',
   })
   export  default class MainPage {
