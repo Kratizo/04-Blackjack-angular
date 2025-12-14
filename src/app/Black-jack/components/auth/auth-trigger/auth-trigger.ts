@@ -17,6 +17,9 @@ export class AuthTriggerComponent {
   showRegister = signal(false);
   showEditProfile = signal(false);
 
+  // Notification State
+  notificationMessage = signal<string | null>(null);
+
   toggleMenu() {
     this.showMenu.update(v => !v);
   }
@@ -49,10 +52,18 @@ export class AuthTriggerComponent {
     this.showRegister.set(false);
   }
 
+  showNotification(msg: string) {
+      this.notificationMessage.set(msg);
+      setTimeout(() => {
+          this.notificationMessage.set(null);
+      }, 3000);
+  }
+
   onLogin(data: any) {
     const success = this.authService.login(data.alias, data.password);
     if (success) {
       this.closeLogin();
+      this.showNotification(`Bienvenido de nuevo, ${data.alias}!`);
     } else {
       alert('Credenciales incorrectas');
     }
@@ -69,6 +80,7 @@ export class AuthTriggerComponent {
 
     if (success) {
       this.closeRegister();
+      this.showNotification('Cuenta creada exitosamente y accedida');
     } else {
       alert('El usuario ya existe');
     }

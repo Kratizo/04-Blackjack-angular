@@ -104,3 +104,66 @@ chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
 chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
 
 Application bundle generation complete. [0.045 seconds] - 2025-12-14T00:31:35.809Z
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names     | Raw size
+main.js             | main      |  2.68 kB |
+
+Lazy chunk files    | Names     | Raw size
+chunk-LXPXLZ2P.js   | Main-Page | 77.76 kB |
+
+Application bundle generation complete. [2.831 seconds] - 2025-12-14T00:59:52.749Z
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names     | Raw size
+main.js             | main      |  2.68 kB |
+
+Lazy chunk files    | Names     | Raw size
+chunk-V64IAT2B.js   | Main-Page | 78.17 kB |
+
+Application bundle generation complete. [0.608 seconds] - 2025-12-14T00:59:56.980Z
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names     | Raw size
+styles.css          | styles    | 25.15 kB |
+main.js             | main      |  2.68 kB |
+
+Lazy chunk files    | Names     | Raw size
+chunk-BQXRNVOV.js   | Main-Page | 79.14 kB |
+
+Application bundle generation complete. [0.959 seconds] - 2025-12-14T01:00:07.987Z
+
+Stylesheet update sent to client(s).
+Component update sent to client(s).
+1:01:03 AM [vite] (client) ✨ new dependencies optimized: @angular/common
+1:01:03 AM [vite] (client) ✨ optimized dependencies changed. reloading
+fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan receive]:
+github.com/evanw/esbuild/internal/helpers.(*ThreadSafeWaitGroup).Wait(...)
+	github.com/evanw/esbuild/internal/helpers/waitgroup.go:36
+main.runService.func2()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:114 +0x51
+main.runService(0x1)
+	github.com/evanw/esbuild/cmd/esbuild/service.go:160 +0x50c
+main.main()
+	github.com/evanw/esbuild/cmd/esbuild/main.go:252 +0xb6b
+
+goroutine 33 [chan receive]:
+main.runService.func1()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:98 +0x45
+created by main.runService in goroutine 1
+	github.com/evanw/esbuild/cmd/esbuild/service.go:97 +0x1db
+
+goroutine 34 [chan receive]:
+main.(*serviceType).sendRequest(0xc000196c60, {0x98ffc0, 0xc0003d9440})
+	github.com/evanw/esbuild/cmd/esbuild/service.go:192 +0x12b
+main.runService.func3()
+	github.com/evanw/esbuild/cmd/esbuild/service.go:125 +0x3e
+created by main.runService in goroutine 1
+	github.com/evanw/esbuild/cmd/esbuild/service.go:122 +0x30d
