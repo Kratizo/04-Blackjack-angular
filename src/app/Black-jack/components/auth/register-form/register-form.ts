@@ -20,22 +20,16 @@ export class RegisterFormComponent {
   }
 
   onSave() {
-    console.log("RegisterFormComponent: onSave clicked");
-    console.log("Values:", { alias: this.alias(), password: this.password(), confirm: this.confirmPassword() });
-
     if (!this.alias() || !this.password()) {
-        console.warn("Validation failed: Empty fields");
         alert('Por favor completa todos los campos');
         return;
     }
 
     if (this.password() !== this.confirmPassword()) {
-      console.warn("Validation failed: Passwords do not match");
       alert('Las contraseñas no coinciden');
       return;
     }
 
-    console.log("Emitting save event...");
     this.save.emit({
       alias: this.alias(),
       password: this.password(),
@@ -46,11 +40,56 @@ export class RegisterFormComponent {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imageUrl.set(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      // Basic size check (e.g. limit to 5MB input to avoid crashing browser memory)
+      if (file.size > 5 * 1024 * 1024) {
+          alert("La imagen es demasiado grande. Por favor elige una imagen menor a 5MB.");
+          return;
+      }
+
+      this.compressImage(file, 200, 0.7).then(compressedDataUrl => {
+          this.imageUrl.set(compressedDataUrl);
+      }).catch(err => {
+          console.error("Error compressing image", err);
+          alert("Error al procesar la imagen.");
+      });
     }
+  }
+
+  compressImage(file: File, maxWidth: number, quality: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event: any) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const elem = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Calculate new dimensions
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                elem.width = width;
+                elem.height = height;
+
+                const ctx = elem.getContext('2d');
+                if (!ctx) {
+                    reject("Canvas context not available");
+                    return;
+                }
+
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Compress to JPEG/WEBP
+                resolve(ctx.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = (error) => reject(error);
+        };
+        reader.onerror = (error) => reject(error);
+    });
   }
 }
