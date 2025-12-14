@@ -25,7 +25,7 @@ export class PvpService {
         this.socket?.emit('join_game', playerInfo);
       });
 
-      this.socket.on('connect_error', (err) => {
+      this.socket.on('connect_error', (err: any) => {
         console.error('Connection Error:', err);
       });
     }
