@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-pvp-page',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './PvP-page.html',
+  templateUrl: './pvp-page.html',
 })
 export default class PvPPageComponent implements OnInit, OnDestroy {
   private pvpService = inject(PvpService);
