@@ -70,19 +70,24 @@ export class AuthTriggerComponent {
   }
 
   onRegister(data: any) {
-    const success = this.authService.register({
-      alias: data.alias,
-      password: data.password,
-      userIcon: data.imageUrl,
-      slogan: '',
-      frameIcon: 'frame-default'
-    });
+    try {
+        const success = this.authService.register({
+          alias: data.alias,
+          password: data.password,
+          userIcon: data.imageUrl,
+          slogan: '',
+          frameIcon: 'frame-default'
+        });
 
-    if (success) {
-      this.closeRegister();
-      this.showNotification('Cuenta creada exitosamente y accedida');
-    } else {
-      alert('El usuario ya existe');
+        if (success) {
+          this.closeRegister();
+          this.showNotification('Cuenta creada exitosamente y accedida');
+        } else {
+          alert('El usuario ya existe');
+        }
+    } catch (e: any) {
+        console.error("Registration error:", e);
+        alert('Error al crear cuenta: ' + (e.message || e));
     }
   }
 }

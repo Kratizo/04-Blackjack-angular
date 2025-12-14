@@ -29,10 +29,14 @@ export class AuthService {
     effect(() => {
       const user = this.currentUser();
       if (isPlatformBrowser(this.platformId)) {
-          if (user) {
-            localStorage.setItem(this.sessionKey, JSON.stringify(user));
-          } else {
-            localStorage.removeItem(this.sessionKey);
+          try {
+            if (user) {
+              localStorage.setItem(this.sessionKey, JSON.stringify(user));
+            } else {
+              localStorage.removeItem(this.sessionKey);
+            }
+          } catch (e) {
+            console.error("Failed to save session:", e);
           }
       }
     });
@@ -51,7 +55,12 @@ export class AuthService {
 
   saveUsers(users: User[]) {
     if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem(this.usersKey, JSON.stringify(users));
+        try {
+            localStorage.setItem(this.usersKey, JSON.stringify(users));
+        } catch (e) {
+            console.error("Failed to save users database:", e);
+            throw new Error("No se pudo guardar el usuario. Es posible que el almacenamiento esté lleno.");
+        }
     }
   }
 
@@ -60,8 +69,12 @@ export class AuthService {
     if (users.find(u => u.alias === user.alias)) {
       return false; // User already exists
     }
+
     users.push(user);
+
+    // logic moved here to handle potential error from saveUsers
     this.saveUsers(users);
+
     this.currentUser.set(user);
     return true;
   }
@@ -85,7 +98,6 @@ export class AuthService {
     const index = users.findIndex(u => u.alias === this.currentUser()?.alias);
 
     if (index !== -1) {
-      // If alias changed, check uniqueness
       if (updatedUser.alias !== this.currentUser()?.alias) {
          if (users.find(u => u.alias === updatedUser.alias)) {
              throw new Error("Alias ya existe");
