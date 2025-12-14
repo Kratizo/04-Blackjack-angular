@@ -4,6 +4,7 @@
     (click)="toggleMenu()"
     class="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition backdrop-blur-md flex items-center gap-2"
     aria-label="User Menu"
+    [title]="authService.currentUser()?.slogan || ''"
   >
     @if (authService.currentUser()) {
         <!-- User Avatar Container with Dynamic Frame Class -->
@@ -20,7 +21,12 @@
                 </svg>
             }
         </div>
-        <span class="text-sm font-medium hidden md:block">{{ authService.currentUser()!.alias }}</span>
+        <div class="flex flex-col items-start hidden md:flex">
+             <span class="text-sm font-medium leading-tight">{{ authService.currentUser()!.alias }}</span>
+             @if(authService.currentUser()!.slogan) {
+                 <span class="text-[10px] text-gray-200 italic leading-tight">{{ authService.currentUser()!.slogan }}</span>
+             }
+        </div>
     } @else {
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -41,6 +47,12 @@
       class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5 origin-top-right transform transition-all"
     >
       @if (authService.currentUser()) {
+          <div class="px-4 py-2 border-b border-gray-100 bg-gray-50 rounded-t-md">
+              <p class="text-sm font-bold text-gray-800">{{ authService.currentUser()!.alias }}</p>
+              @if(authService.currentUser()!.slogan) {
+                  <p class="text-xs text-gray-500 italic">"{{ authService.currentUser()!.slogan }}"</p>
+              }
+          </div>
           <button
             (click)="openEditProfile()"
             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -49,7 +61,7 @@
           </button>
           <button
             (click)="logout()"
-            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 rounded-b-md"
           >
             Cerrar sesión
           </button>

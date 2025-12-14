@@ -1,0 +1,57 @@
+
+> black-jack-angular@0.0.0 start
+> ng serve
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names         | Raw size
+styles.css          | styles        | 26.34 kB |
+main.js             | main          |  2.68 kB |
+polyfills.js        | polyfills     | 95 bytes |
+
+                    | Initial total | 29.11 kB
+
+Lazy chunk files    | Names         | Raw size
+chunk-IBZTX4BX.js   | Main-Page     | 86.23 kB |
+chunk-HGIB2VUO.js   | Online-page   |  1.89 kB |
+chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
+chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
+
+Application bundle generation complete. [5.109 seconds] - 2025-12-14T02:03:35.233Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         | Raw size
+styles.css          | styles        | 26.34 kB |
+main.js             | main          |  2.68 kB |
+polyfills.js        | polyfills     | 95 bytes |
+
+                    | Initial total | 29.11 kB
+
+Lazy chunk files    | Names         | Raw size
+chunk-IBZTX4BX.js   | Main-Page     | 86.23 kB |
+chunk-HGIB2VUO.js   | Online-page   |  1.89 kB |
+chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
+chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
+
+Application bundle generation complete. [0.091 seconds] - 2025-12-14T02:05:04.672Z
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         | Raw size
+styles.css          | styles        | 26.34 kB |
+main.js             | main          |  2.68 kB |
+polyfills.js        | polyfills     | 95 bytes |
+
+                    | Initial total | 29.11 kB
+
+Lazy chunk files    | Names         | Raw size
+chunk-IBZTX4BX.js   | Main-Page     | 86.23 kB |
+chunk-HGIB2VUO.js   | Online-page   |  1.89 kB |
+chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
+chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
+
+Application bundle generation complete. [0.061 seconds] - 2025-12-14T02:05:44.220Z
