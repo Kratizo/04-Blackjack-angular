@@ -16,6 +16,7 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
   private router = inject(Router);
 
   gameStatus = signal<'connecting' | 'waiting' | 'playing' | 'game_over'>('connecting');
+  connectionError = signal<string | null>(null);
   myId = signal<string>('');
 
   // Game State
@@ -57,6 +58,11 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
           return;
       }
 
+      // Listen for connection errors
+      this.pvpService.connectionError$.subscribe(err => {
+          this.connectionError.set(err);
+      });
+
       this.pvpService.connect({
           alias: user.alias,
           frameIcon: user.frameIcon,
@@ -65,11 +71,13 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
       });
 
       this.pvpService.listen('waiting_for_opponent').subscribe(() => {
+          console.log('Received waiting_for_opponent');
           this.gameStatus.set('waiting');
           this.myId.set(this.pvpService.getSocketId() || '');
       });
 
       this.pvpService.listen('game_start').subscribe((data: any) => {
+          console.log('Received game_start', data);
           this.myId.set(this.pvpService.getSocketId() || '');
           this.players.set(data.players);
           this.hands.set(data.hands);

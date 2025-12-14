@@ -72,14 +72,16 @@ function getImage(card) {
 }
 
 io.on('connection', (socket) => {
-    console.log('New client connected:', socket.id);
+    console.log('New client connected:', socket.id, 'from', socket.handshake.address);
 
     socket.on('join_game', (playerInfo) => {
         // playerInfo: { alias, frameIcon, etc }
+        console.log(`Player joined queue: ${socket.id} (${playerInfo?.alias})`);
         socket.data.playerInfo = playerInfo;
 
-        if (waitingPlayer) {
+        if (waitingPlayer && waitingPlayer.id !== socket.id) {
             // Pair with waiting player
+            console.log(`Pairing ${socket.id} with waiting player ${waitingPlayer.id}`);
             const roomID = waitingPlayer.id + '#' + socket.id;
             const player1 = waitingPlayer;
             const player2 = socket;
@@ -122,6 +124,8 @@ io.on('connection', (socket) => {
 
             console.log(`Game started in room ${roomID}`);
 
+        } else if (waitingPlayer && waitingPlayer.id === socket.id) {
+             console.log(`Player ${socket.id} is already waiting.`);
         } else {
             waitingPlayer = socket;
             socket.emit('waiting_for_opponent');
@@ -166,6 +170,7 @@ io.on('connection', (socket) => {
         console.log('Client disconnected:', socket.id);
         if (waitingPlayer === socket) {
             waitingPlayer = null;
+            console.log('Waiting player disconnected. Queue empty.');
         }
 
         // Handle active games
@@ -173,6 +178,7 @@ io.on('connection', (socket) => {
         if (roomID && rooms[roomID]) {
             io.to(roomID).emit('player_left');
             delete rooms[roomID];
+            console.log(`Room ${roomID} destroyed due to disconnection.`);
         }
     });
 });

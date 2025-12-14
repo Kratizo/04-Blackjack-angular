@@ -1,13 +1,14 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { io, Socket } from 'socket.io-client';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PvpService {
   private socket: Socket | undefined;
+  public connectionError$ = new Subject<string>();
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -15,6 +16,7 @@ export class PvpService {
     if (isPlatformBrowser(this.platformId)) {
       // Connect to server on the same hostname but port 3000
       const url = `http://${window.location.hostname}:3000`;
+      console.log(`Attempting to connect to PvP server at ${url}`);
 
       this.socket = io(url, {
         transports: ['websocket', 'polling']
@@ -27,6 +29,7 @@ export class PvpService {
 
       this.socket.on('connect_error', (err: any) => {
         console.error('Connection Error:', err);
+        this.connectionError$.next(err.message || 'Error de conexión');
       });
     }
   }
