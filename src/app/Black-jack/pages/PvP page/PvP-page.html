@@ -10,11 +10,25 @@
       </button>
   </div>
 
-  @if (gameStatus() === 'waiting' || gameStatus() === 'connecting') {
-      <div class="flex flex-col items-center justify-center gap-4 text-white animate-pulse mt-20">
+  @if (gameStatus() === 'connecting') {
+      <div class="flex flex-col items-center justify-center gap-4 text-white mt-20">
           <div class="w-16 h-16 border-4 border-t-blue-500 border-white rounded-full animate-spin"></div>
+          <h2 class="text-2xl font-bold">Conectando con el servidor...</h2>
+          <p class="text-gray-400">Estableciendo conexión en puerto 3000.</p>
+          @if (connectionError()) {
+              <div class="bg-red-500/80 p-4 rounded text-white mt-4 max-w-md text-center">
+                  <p class="font-bold">Error de conexión:</p>
+                  <p>{{ connectionError() }}</p>
+                  <p class="text-sm mt-2">Asegúrate de que el servidor está corriendo en el puerto 3000 y el firewall no lo bloquea.</p>
+              </div>
+          }
+      </div>
+  } @else if (gameStatus() === 'waiting') {
+      <div class="flex flex-col items-center justify-center gap-4 text-white animate-pulse mt-20">
+          <div class="w-16 h-16 border-4 border-t-yellow-500 border-white rounded-full animate-spin"></div>
           <h2 class="text-2xl font-bold">Esperando oponente...</h2>
           <p class="text-gray-400">Invita a alguien a conectarse a la misma red.</p>
+          <div class="text-sm text-gray-500 font-mono">ID: {{ myId() }}</div>
       </div>
   } @else {
       <!-- Game Area -->
