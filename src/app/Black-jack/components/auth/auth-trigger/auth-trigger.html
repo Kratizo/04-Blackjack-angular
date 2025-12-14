@@ -6,7 +6,11 @@
     aria-label="User Menu"
   >
     @if (authService.currentUser()) {
-        <div class="w-8 h-8 rounded-full overflow-hidden border border-white/50">
+        <!-- User Avatar Container with Dynamic Frame Class -->
+        <div
+            class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center transition-all duration-300"
+            [class]="getFrameClass(authService.currentUser()!.frameIcon)"
+        >
             @if(authService.currentUser()!.userIcon) {
                 <img [src]="authService.currentUser()!.userIcon" class="w-full h-full object-cover">
             } @else {

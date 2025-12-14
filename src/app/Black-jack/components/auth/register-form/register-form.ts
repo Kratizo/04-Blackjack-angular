@@ -85,7 +85,7 @@ export class RegisterFormComponent {
                 ctx.drawImage(img, 0, 0, width, height);
 
                 // Compress to JPEG/WEBP
-                resolve(ctx.toDataURL('image/jpeg', quality));
+                resolve(elem.toDataURL('image/jpeg', quality));
             };
             img.onerror = (error) => reject(error);
         };
