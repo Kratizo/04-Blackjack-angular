@@ -74,13 +74,25 @@ npm start
 El servidor escuchará en el puerto `3000`.
 
 ### 2. Iniciar el Cliente (Frontend)
-Ejecuta la aplicación Angular permitiendo el acceso desde la red:
+Ejecuta la aplicación Angular en un puerto diferente al del servidor (el servidor usa el 3000):
 
 ```bash
-ng serve --host 0.0.0.0
+ng serve --host 0.0.0.0 --port 4200
+```
+**Nota:** ¡No uses el puerto 3000 para Angular (`--port 3000`) porque causará conflicto con el servidor de juego!
+
+### 3. Configurar Firewall (Windows)
+Si juegas en red local, necesitas permitir el tráfico en ambos puertos (3000 y 4200). Ejecuta esto en PowerShell como Administrador:
+
+```powershell
+# Permitir Servidor de Juego (Socket)
+New-NetFirewallRule -DisplayName "Blackjack Server 3000" -Direction Inbound -LocalPort 3000 -Protocol TCP -Action Allow
+
+# Permitir Cliente Web (Angular)
+New-NetFirewallRule -DisplayName "Blackjack Web 4200" -Direction Inbound -LocalPort 4200 -Protocol TCP -Action Allow
 ```
 
-### 3. Conectar Jugadores
+### 4. Conectar Jugadores
 1. Averigua la dirección IP de tu computadora en la red local (ej. `192.168.1.5`).
 2. Abre un navegador en tu computadora y ve a `http://localhost:4200`.
 3. Desde otro dispositivo (o ventana de incógnito), ve a `http://<TU_IP>:4200`.

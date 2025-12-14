@@ -1,0 +1,5 @@
+
+> black-jack-angular@0.0.0 server
+> cd server && node server.js
+
+Server running on port 3000
