@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'Pagina Principal',
     loadComponent: () =>
-    import('./Black-jack/pages/Main-Page/Main-Page'),
+    import('./Black-jack/pages/Home-Page/Home-Page'),
 
 
   },

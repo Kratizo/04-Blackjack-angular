@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import type { CartPage } from '../../Interfaces/CartPage-interface';
+import type { CardPage } from '../../Interfaces/Card-Page-interface';
 import { environment } from '../../../../environments/environment';
 import { CardModeComponent } from '../../components/Card-mode-component/Card-mode-component';
 
@@ -16,7 +16,7 @@ import { CardModeComponent } from '../../components/Card-mode-component/Card-mod
 
     env = environment;
 
-    cartPage = signal<CartPage[] >([
+    cartPage = signal<CardPage[] >([
         {
           imagen: '/assets/img/Player-VS-IA.jpg',
           router: '/PlayerVsPc',
