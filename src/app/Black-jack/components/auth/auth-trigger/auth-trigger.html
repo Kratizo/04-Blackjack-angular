@@ -1,1 +1,44 @@
-<p>auth-trigger works!</p>,
+<div class="relative inline-block">
+  <!-- Trigger Icon -->
+  <button
+    (click)="toggleMenu()"
+    class="p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition backdrop-blur-md"
+    aria-label="User Menu"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  @if (showMenu()) {
+    <div
+      class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5 origin-top-right transform transition-all"
+    >
+      <button
+        (click)="openLogin()"
+        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      >
+        Iniciar sesión
+      </button>
+      <button
+        (click)="openRegister()"
+        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      >
+        Crear cuenta
+      </button>
+    </div>
+
+    <!-- Backdrop for closing menu when clicking outside -->
+    <div class="fixed inset-0 z-40" (click)="showMenu.set(false)"></div>
+  }
+
+  <!-- Modals -->
+  @if (showLogin()) {
+    <login-form (close)="closeLogin()" (save)="onLogin($event)"></login-form>
+  }
+
+  @if (showRegister()) {
+    <register-form (close)="closeRegister()" (save)="onRegister($event)"></register-form>
+  }
+</div>

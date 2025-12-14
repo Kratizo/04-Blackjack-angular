@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import type { CardPage } from '../../Interfaces/Card-Page-interface';
 import { environment } from '../../../../environments/environment';
 import { CardModeComponent } from '../../components/Card-mode-component/Card-mode-component';
+import { AuthTriggerComponent } from "../../components/auth/auth-trigger/auth-trigger";
 
 
 
@@ -9,14 +10,14 @@ import { CardModeComponent } from '../../components/Card-mode-component/Card-mod
 
   @Component({
     selector: 'Home-page',
-    imports: [CardModeComponent],
+    imports: [CardModeComponent, AuthTriggerComponent],
     templateUrl: './Home-Page.html',
   })
   export  default class HomePage {
 
     env = environment;
 
-    cartPage = signal<CardPage[] >([
+    cardPages = signal<CardPage[] >([
         {
           imagen: '/assets/img/Player-VS-IA.jpg',
           router: '/PlayerVsPc',

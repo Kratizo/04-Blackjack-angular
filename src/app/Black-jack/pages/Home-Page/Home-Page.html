@@ -1,8 +1,12 @@
-<div class="min-h-screen flex flex-col flex-wrap gap-4">
+<div class="min-h-screen flex flex-col flex-wrap gap-4 relative">
+
+  <!-- Auth Trigger (Top Right) -->
+  <div class="absolute top-4 right-4 z-50">
+    <auth-trigger></auth-trigger>
+  </div>
 
   <!-- Título arriba -->
 <div class="flex justify-center pt-8 bg-[rgba(0,0,0,0.5)]">
-s>
   <svg viewBox="0 0 600 120" class="w-full max-w-6xl h-44">
     <!-- Curva del texto -->
     <path id="curve" d="M20,100 Q300,20 580,100" fill="transparent"/>
@@ -29,7 +33,7 @@ s>
 
   <!-- Contenido centrado -->
   <div class="flex flex-wrap justify-center items-center gap-10 p-4 flex-1">
-    @for (item of cartPage(); track item.router) {
+    @for (item of cardPages(); track item.router) {
       <card-mode-component
         [imagen]="item.imagen"
         [router]="item.router"
