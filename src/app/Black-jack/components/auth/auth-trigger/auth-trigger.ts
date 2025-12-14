@@ -1,16 +1,24 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { LoginFormComponent } from '../login-form/login-form';
 import { RegisterFormComponent } from '../register-form/register-form';
+import { EditProfileComponent } from '../edit-profile/edit-profile';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'auth-trigger',
-  imports: [LoginFormComponent, RegisterFormComponent],
+  imports: [LoginFormComponent, RegisterFormComponent, EditProfileComponent],
   templateUrl: './auth-trigger.html',
 })
 export class AuthTriggerComponent {
+  authService = inject(AuthService);
+
   showMenu = signal(false);
   showLogin = signal(false);
   showRegister = signal(false);
+  showEditProfile = signal(false);
+
+  // Notification State
+  notificationMessage = signal<string | null>(null);
 
   toggleMenu() {
     this.showMenu.update(v => !v);
@@ -26,6 +34,16 @@ export class AuthTriggerComponent {
     this.showRegister.set(true);
   }
 
+  openEditProfile() {
+    this.showMenu.set(false);
+    this.showEditProfile.set(true);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.showMenu.set(false);
+  }
+
   closeLogin() {
     this.showLogin.set(false);
   }
@@ -34,13 +52,37 @@ export class AuthTriggerComponent {
     this.showRegister.set(false);
   }
 
+  showNotification(msg: string) {
+      this.notificationMessage.set(msg);
+      setTimeout(() => {
+          this.notificationMessage.set(null);
+      }, 3000);
+  }
+
   onLogin(data: any) {
-    console.log('Login data:', data);
-    this.closeLogin();
+    const success = this.authService.login(data.alias, data.password);
+    if (success) {
+      this.closeLogin();
+      this.showNotification(`Bienvenido de nuevo, ${data.alias}!`);
+    } else {
+      alert('Credenciales incorrectas');
+    }
   }
 
   onRegister(data: any) {
-    console.log('Register data:', data);
-    this.closeRegister();
+    const success = this.authService.register({
+      alias: data.alias,
+      password: data.password,
+      userIcon: data.imageUrl,
+      slogan: '',
+      frameIcon: 'frame-default'
+    });
+
+    if (success) {
+      this.closeRegister();
+      this.showNotification('Cuenta creada exitosamente y accedida');
+    } else {
+      alert('El usuario ya existe');
+    }
   }
 }

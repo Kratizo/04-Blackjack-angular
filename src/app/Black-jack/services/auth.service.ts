@@ -1,4 +1,5 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import type { User } from '../Interfaces/User.interface';
 
 @Injectable({
@@ -8,32 +9,50 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   private usersKey = 'blackjack_users';
   private sessionKey = 'blackjack_session';
+  private platformId = inject(PLATFORM_ID);
 
   constructor() {
-    // Load session on init
-    const savedSession = localStorage.getItem(this.sessionKey);
-    if (savedSession) {
-      this.currentUser.set(JSON.parse(savedSession));
+    // Load session on init only if in browser
+    if (isPlatformBrowser(this.platformId)) {
+        const savedSession = localStorage.getItem(this.sessionKey);
+        if (savedSession) {
+          try {
+              this.currentUser.set(JSON.parse(savedSession));
+          } catch (e) {
+              console.error("Failed to parse session", e);
+              localStorage.removeItem(this.sessionKey);
+          }
+        }
     }
 
     // Effect to sync session to local storage
     effect(() => {
       const user = this.currentUser();
-      if (user) {
-        localStorage.setItem(this.sessionKey, JSON.stringify(user));
-      } else {
-        localStorage.removeItem(this.sessionKey);
+      if (isPlatformBrowser(this.platformId)) {
+          if (user) {
+            localStorage.setItem(this.sessionKey, JSON.stringify(user));
+          } else {
+            localStorage.removeItem(this.sessionKey);
+          }
       }
     });
   }
 
   getUsers(): User[] {
+    if (!isPlatformBrowser(this.platformId)) return [];
+
     const usersStr = localStorage.getItem(this.usersKey);
-    return usersStr ? JSON.parse(usersStr) : [];
+    try {
+        return usersStr ? JSON.parse(usersStr) : [];
+    } catch (e) {
+        return [];
+    }
   }
 
   saveUsers(users: User[]) {
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
+    if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(this.usersKey, JSON.stringify(users));
+    }
   }
 
   register(user: User): boolean {
@@ -66,10 +85,6 @@ export class AuthService {
     const index = users.findIndex(u => u.alias === this.currentUser()?.alias);
 
     if (index !== -1) {
-      // Keep password if not changed (handled in component usually, but here we replace)
-      // Assuming alias is the ID, if alias changes we need to be careful, but let's assume alias is immutable or handles ID update
-      // For simplicity, we update the user at the index.
-
       // If alias changed, check uniqueness
       if (updatedUser.alias !== this.currentUser()?.alias) {
          if (users.find(u => u.alias === updatedUser.alias)) {
