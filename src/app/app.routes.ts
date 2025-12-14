@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
        path: 'PlayerVsPlayer',
        loadComponent: () =>
-       import('./Black-jack/pages/PvP page/PvP page')
+       import('./Black-jack/pages/pvp-page/pvp-page.component')
   },
   {
        path: 'Online',
