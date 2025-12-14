@@ -11,10 +11,9 @@
 
       <!-- Profile Image & Frame -->
       <div class="flex flex-col items-center gap-2">
-        <div class="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center relative cursor-pointer group"
-             [class]="getFrameClass(frameIcon())"
-             (click)="openFrameSelection()">
-
+        <!-- Avatar + Frame -->
+        <div class="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center relative cursor-pointer"
+             [class]="getFrameClass(frameIcon())">
             @if (imageUrl()) {
                 <img [src]="imageUrl()" class="w-full h-full object-cover" alt="Profile">
             } @else {
@@ -22,16 +21,22 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
             }
-
-            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                <span class="text-white text-xs font-bold">Cambiar Marco</span>
-            </div>
         </div>
 
-        <label class="cursor-pointer text-blue-600 text-sm hover:underline">
-          Cambiar imagen
-          <input type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)">
-        </label>
+        <!-- Buttons Row -->
+        <div class="flex gap-2 text-sm">
+             <label class="cursor-pointer text-blue-600 hover:underline px-2 py-1 bg-blue-50 rounded">
+                Cambiar imagen
+                <input type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)">
+             </label>
+             <button
+                type="button"
+                (click)="openFrameSelection()"
+                class="text-purple-600 hover:underline px-2 py-1 bg-purple-50 rounded font-medium"
+             >
+                Cambiar Marco
+             </button>
+        </div>
       </div>
 
       <div>

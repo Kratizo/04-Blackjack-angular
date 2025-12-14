@@ -70,19 +70,37 @@ export class AuthTriggerComponent {
   }
 
   onRegister(data: any) {
-    const success = this.authService.register({
-      alias: data.alias,
-      password: data.password,
-      userIcon: data.imageUrl,
-      slogan: '',
-      frameIcon: 'frame-default'
-    });
+    try {
+        const success = this.authService.register({
+          alias: data.alias,
+          password: data.password,
+          userIcon: data.imageUrl,
+          slogan: '',
+          frameIcon: 'frame-default'
+        });
 
-    if (success) {
-      this.closeRegister();
-      this.showNotification('Cuenta creada exitosamente y accedida');
-    } else {
-      alert('El usuario ya existe');
+        if (success) {
+          this.closeRegister();
+          this.showNotification('Cuenta creada exitosamente y accedida');
+        } else {
+          alert('El usuario ya existe');
+        }
+    } catch (e: any) {
+        console.error("Registration error:", e);
+        alert('Error al crear cuenta: ' + (e.message || e));
     }
+  }
+
+  getFrameClass(frameId: string | undefined) {
+      if (!frameId) return 'border border-white/50'; // Default fallback
+
+      const frames: Record<string, string> = {
+        'frame-default': 'border-2 border-transparent',
+        'frame-gold': 'border-2 border-yellow-500 shadow-[0_0_10px_#fbbf24]', // Reduced width for small icon
+        'frame-neon': 'border-2 border-blue-500 shadow-[0_0_10px_#3b82f6]',
+        'frame-fire': 'border-2 border-red-600 border-dashed',
+        'frame-jungle': 'border-2 border-green-600 border-double',
+      };
+      return frames[frameId] || 'border border-white/50';
   }
 }
