@@ -2,10 +2,11 @@ import { Component, signal } from '@angular/core';
 import type { CardPage } from '../../Interfaces/card-page.interface';
 import { environment } from '../../../../environments/environment';
 import { CardModeComponent } from '../../components/Card-mode-component/Card-mode-component';
+import { AuthTriggerComponent } from '../../components/auth/auth-trigger/auth-trigger';
 
 @Component({
   selector: 'main-page',
-  imports: [CardModeComponent],
+  imports: [CardModeComponent, AuthTriggerComponent],
   templateUrl: './Main-Page.html',
 })
 export default class MainPage {
