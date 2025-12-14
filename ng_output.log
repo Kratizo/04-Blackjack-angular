@@ -38,3 +38,69 @@ chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
 chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
 
 Application bundle generation complete. [0.056 seconds] - 2025-12-14T00:00:44.098Z
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names     | Raw size
+styles.css          | styles    | 24.06 kB |
+main.js             | main      |  2.68 kB |
+
+Lazy chunk files    | Names     | Raw size
+chunk-3JUUSV4F.js   | Main-Page | 70.99 kB |
+
+Application bundle generation complete. [2.801 seconds] - 2025-12-14T00:28:45.560Z
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: EditProfileComponent is not used within the template of AuthTriggerComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/Black-jack/components/auth/auth-trigger/auth-trigger.ts:9:55:
+[37m      9 │ ... [LoginFormComponent, RegisterFormComponent, [32mEditProfileComponent[37m],
+        ╵                                                 [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names     | Raw size
+styles.css          | styles    | 24.50 kB |
+main.js             | main      |  2.68 kB |
+
+Lazy chunk files    | Names     | Raw size
+chunk-O4SNRY6U.js   | Main-Page | 77.19 kB |
+
+Application bundle generation complete. [1.215 seconds] - 2025-12-14T00:29:00.686Z
+
+Stylesheet update sent to client(s).
+Component update sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         | Raw size
+styles.css          | styles        | 24.50 kB |
+main.js             | main          |  2.68 kB |
+polyfills.js        | polyfills     | 95 bytes |
+
+                    | Initial total | 27.27 kB
+
+Lazy chunk files    | Names         | Raw size
+chunk-O4SNRY6U.js   | Main-Page     | 77.19 kB |
+chunk-HGIB2VUO.js   | Online-page   |  1.89 kB |
+chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
+chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
+
+Application bundle generation complete. [0.056 seconds] - 2025-12-14T00:31:27.125Z
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         | Raw size
+styles.css          | styles        | 24.50 kB |
+main.js             | main          |  2.68 kB |
+polyfills.js        | polyfills     | 95 bytes |
+
+                    | Initial total | 27.27 kB
+
+Lazy chunk files    | Names         | Raw size
+chunk-O4SNRY6U.js   | Main-Page     | 77.19 kB |
+chunk-HGIB2VUO.js   | Online-page   |  1.89 kB |
+chunk-HI5MDSDJ.js   | Player-vs-Pc  |  1.66 kB |
+chunk-VVHBLRD2.js   | PvP-page      |  1.59 kB |
+
+Application bundle generation complete. [0.045 seconds] - 2025-12-14T00:31:35.809Z

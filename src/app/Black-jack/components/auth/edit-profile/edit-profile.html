@@ -1,0 +1,87 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" (click)="onClose()">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden relative" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <h2 class="text-xl font-bold">Editar Perfil</h2>
+      <button (click)="onClose()" class="text-gray-400 hover:text-white">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+
+      <!-- Profile Image & Frame -->
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-24 h-24 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center relative cursor-pointer group"
+             [class]="getFrameClass(frameIcon())"
+             (click)="openFrameSelection()">
+
+            @if (imageUrl()) {
+                <img [src]="imageUrl()" class="w-full h-full object-cover" alt="Profile">
+            } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            }
+
+            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <span class="text-white text-xs font-bold">Cambiar Marco</span>
+            </div>
+        </div>
+
+        <label class="cursor-pointer text-blue-600 text-sm hover:underline">
+          Cambiar imagen
+          <input type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)">
+        </label>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Alias</label>
+        <input
+          type="text"
+          [ngModel]="alias()"
+          (ngModelChange)="alias.set($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+          readonly
+        >
+        <p class="text-xs text-gray-500 mt-1">El alias no se puede cambiar.</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+        <input
+          type="text"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Slogan</label>
+        <select
+            [ngModel]="slogan()"
+            (ngModelChange)="slogan.set($event)"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+            @for (s of slogans; track s) {
+                <option [value]="s">{{s}}</option>
+            }
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="p-4 bg-gray-50 flex justify-end gap-3">
+      <button (click)="onClose()" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+      <button (click)="onSave()" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+@if (showFrameSelection()) {
+    <frame-selection
+        (close)="showFrameSelection.set(false)"
+        (confirm)="onFrameSelected($event)"
+    ></frame-selection>
+}

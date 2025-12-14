@@ -39,3 +39,30 @@
 4.  Actualización de `MainPage` para usar el nuevo nombre de interface y variable (`cardPages`).
 5.  Actualización de la plantilla HTML para iterar sobre `cardPages()`.
 6.  Verificación de existencia de todos los assets referenciados.
+
+## 5. Nuevas Características Implementadas (3ª Iteración - Auth y Perfil)
+
+### Autenticación
+- **`AuthService`**: Implementado con Angular Signals.
+    - Gestiona el estado de sesión (`currentUser`, `isLoggedIn`).
+    - Persistencia de sesión usando `localStorage`.
+    - Métodos para `login`, `register`, `logout` y `updateProfile`.
+- **UI de Autenticación**:
+    - `LoginFormComponent`: Formulario reactivo para inicio de sesión.
+    - `RegisterFormComponent`: Formulario reactivo para registro de nuevos usuarios.
+    - `AuthTriggerComponent`: Botón flotante/menu en el encabezado que muestra el estado del usuario (Avatar + Nombre) o invita a iniciar sesión.
+
+### Gestión de Perfil
+- **`EditProfileComponent`**:
+    - Permite cambiar contraseña.
+    - Selección de Avatar predefinido.
+    - Edición de Slogan personalizado.
+- **Personalización Visual (Marcos)**:
+    - **`FrameSelectionComponent`**: Modal para seleccionar marcos visuales para el avatar.
+    - Marcos implementados: Oro, Neón, Fuego, Selva.
+    - Los marcos se persisten en el perfil del usuario.
+
+### Verificación
+- Se realizó una prueba completa de flujo (E2E) mediante script automatizado:
+    - Registro -> Login -> Edición de Perfil -> Cambio de Marco -> Guardado -> Logout.
+- Verificación visual exitosa de la actualización de UI tras los cambios de perfil.
