@@ -1,1 +1,196 @@
-<p>Online-page works!</p>,
+<div class="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Header / Exit -->
+    <div class="absolute top-4 left-4 z-10">
+        <button (click)="goHome()" class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Salir
+        </button>
+    </div>
+
+    @if (gameStatus() === 'input_url') {
+        <div class="flex flex-col items-center justify-center gap-6 text-white bg-gray-900/80 p-8 rounded-xl backdrop-blur-md max-w-md w-full shadow-2xl border border-white/10 mt-20">
+            <h2 class="text-3xl font-bold text-center">Modo Online</h2>
+            <p class="text-gray-400 text-center text-sm">Ingresa la dirección del servidor para conectarte a una partida pública o privada en internet.</p>
+
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-300 mb-1">URL del Servidor</label>
+                <input
+                    type="text"
+                    [(ngModel)]="serverUrl"
+                    placeholder="ej. https://mi-servidor-blackjack.com"
+                    class="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition"
+                >
+            </div>
+
+            @if (connectionError()) {
+                <div class="w-full bg-red-500/20 border border-red-500/50 p-3 rounded text-red-200 text-sm text-center">
+                    {{ connectionError() }}
+                </div>
+            }
+
+            <button
+                (click)="connectToServer()"
+                class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded transition transform active:scale-95 shadow-lg"
+            >
+                Conectar
+            </button>
+        </div>
+    } @else if (gameStatus() === 'connecting') {
+        <div class="flex flex-col items-center justify-center gap-4 text-white mt-20">
+            <div class="w-16 h-16 border-4 border-t-blue-500 border-white rounded-full animate-spin"></div>
+            <h2 class="text-2xl font-bold">Conectando...</h2>
+            <p class="text-gray-400">{{ serverUrl() }}</p>
+        </div>
+    } @else if (gameStatus() === 'waiting') {
+        <div class="flex flex-col items-center justify-center gap-4 text-white animate-pulse mt-20">
+            <div class="w-16 h-16 border-4 border-t-yellow-500 border-white rounded-full animate-spin"></div>
+            <h2 class="text-2xl font-bold">Esperando oponente...</h2>
+            <p class="text-gray-400">Conectado a {{ serverUrl() }}</p>
+            <div class="text-sm text-gray-500 font-mono">ID: {{ myId() }}</div>
+        </div>
+    } @else {
+        <!-- Game Area (Same as PvP) -->
+        <div class="w-full max-w-5xl flex flex-col gap-8 z-10 h-full justify-between py-10 flex-1">
+
+            <!-- Opponent Section (Top) -->
+            <div class="flex flex-col items-center">
+                <div class="flex items-center gap-4 mb-4">
+                     <!-- Opponent Avatar -->
+                     <div class="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-900"
+                          [class]="getFrameClass(opponentInfo()?.frameIcon)">
+                          @if (opponentInfo()?.userIcon) {
+                               <img [src]="opponentInfo()?.userIcon" class="w-full h-full object-cover">
+                          } @else {
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                              </svg>
+                          }
+                     </div>
+                     <div class="text-white">
+                         <h2 class="text-xl font-bold">{{ opponentInfo()?.alias || 'Oponente' }}</h2>
+                         <p class="text-xs text-gray-400">"{{ opponentInfo()?.slogan || '...' }}"</p>
+                     </div>
+                     <div class="bg-gray-800 px-3 py-1 rounded text-white font-mono text-xl border border-gray-600">
+                         {{ opponentScore() }}
+                     </div>
+                </div>
+
+                <!-- Opponent Cards -->
+                <div class="flex gap-[-4rem] justify-center h-32 md:h-40 perspective-1000">
+                     @for (card of opponentHand(); track $index) {
+                         <div class="relative w-24 h-36 md:w-28 md:h-44 transition-transform duration-500"
+                              [style.transform]="'translateX(' + ($index * -40) + 'px)'"
+                              [style.z-index]="$index">
+                             <img [src]="card.image" class="w-full h-full object-contain drop-shadow-lg" [alt]="card.code">
+                         </div>
+                     }
+                </div>
+            </div>
+
+            <!-- Result Message (Center) -->
+            @if (gameStatus() === 'game_over') {
+                <div class="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+                    <div class="bg-black/80 backdrop-blur-md p-8 rounded-xl border border-white/20 text-center animate-bounce-in pointer-events-auto shadow-2xl">
+                        @if (winner() === myId()) {
+                            <h1 class="text-5xl font-bold text-green-500 mb-2">¡GANASTE!</h1>
+                            <p class="text-white text-lg">La victoria es tuya.</p>
+                        } @else if (winner() === 'draw') {
+                            <h1 class="text-5xl font-bold text-yellow-500 mb-2">EMPATE</h1>
+                            <p class="text-white text-lg">Reñido encuentro.</p>
+                        } @else {
+                            <h1 class="text-5xl font-bold text-red-500 mb-2">PERDISTE</h1>
+                            <p class="text-white text-lg">Suerte para la próxima.</p>
+                        }
+
+                        <div class="flex gap-4 mt-6 justify-center">
+                            <button (click)="goHome()" class="px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition transform">
+                                Salir
+                            </button>
+                            <button (click)="rematch()"
+                                    [disabled]="rematchRequested()"
+                                    class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-500 hover:scale-105 disabled:opacity-50 disabled:scale-100 disabled:cursor-wait transition transform">
+                                @if(rematchRequested()) {
+                                    <span class="flex items-center gap-2">
+                                        <span class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                                        Esperando...
+                                    </span>
+                                } @else {
+                                    Jugar de nuevo
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Player Section (Bottom) -->
+            <div class="flex flex-col items-center mt-auto">
+                <!-- Player Cards -->
+                <div class="flex gap-[-4rem] justify-center h-32 md:h-40 mb-4 perspective-1000">
+                     @for (card of myHand(); track $index) {
+                         <div class="relative w-24 h-36 md:w-28 md:h-44 transition-transform duration-500 hover:-translate-y-4"
+                              [style.transform]="'translateX(' + ($index * -40) + 'px)'"
+                              [style.z-index]="$index">
+                             <img [src]="card.image" class="w-full h-full object-contain drop-shadow-lg" [alt]="card.code">
+                         </div>
+                     }
+                </div>
+
+                <!-- Controls & Info -->
+                <div class="w-full bg-gray-800/80 backdrop-blur-md p-4 rounded-t-2xl border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+
+                    <!-- Player Info -->
+                    <div class="flex items-center gap-4">
+                         <!-- Avatar with Frame -->
+                         <div class="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-900"
+                              [class]="getFrameClass(authService.currentUser()?.frameIcon)">
+                             @if(authService.currentUser()?.userIcon) {
+                                 <img [src]="authService.currentUser()?.userIcon" class="w-full h-full object-cover">
+                             } @else {
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                 </svg>
+                             }
+                         </div>
+                         <div class="text-white">
+                             <h3 class="font-bold text-lg">{{ authService.currentUser()?.alias || 'Tú' }}</h3>
+                             <p class="text-sm text-yellow-400 italic">"{{ authService.currentUser()?.slogan || '...' }}"</p>
+                         </div>
+                         <!-- Score Badge -->
+                         <div class="bg-blue-600 px-4 py-2 rounded-lg text-white font-bold text-2xl shadow-lg border border-blue-400">
+                             {{ myScore() }}
+                         </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4">
+                        <!-- Status Message when not turn -->
+                        @if (!isMyTurn() && gameStatus() === 'playing') {
+                            <div class="text-yellow-400 font-bold animate-pulse px-4 flex items-center">
+                                Turno del oponente...
+                            </div>
+                        }
+
+                        <button
+                            (click)="hit()"
+                            [disabled]="!isMyTurn() || gameStatus() !== 'playing'"
+                            class="px-6 py-3 bg-green-600 text-white font-bold rounded shadow-lg hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition transform active:scale-95"
+                        >
+                            PEDIR CARTA
+                        </button>
+                        <button
+                            (click)="stand()"
+                            [disabled]="!isMyTurn() || gameStatus() !== 'playing'"
+                            class="px-6 py-3 bg-red-600 text-white font-bold rounded shadow-lg hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition transform active:scale-95"
+                        >
+                            PLANTARSE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+  </div>

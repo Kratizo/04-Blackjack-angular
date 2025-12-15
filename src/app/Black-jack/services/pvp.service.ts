@@ -12,10 +12,10 @@ export class PvpService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  connect(playerInfo: any): void {
+  connect(playerInfo: any, serverUrl?: string): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Connect to server on the same hostname but port 3000
-      const url = `http://${window.location.hostname}:3000`;
+      // Use provided URL or default to same hostname on port 3000 (LAN)
+      const url = serverUrl || `http://${window.location.hostname}:3000`;
       console.log(`Attempting to connect to PvP server at ${url}`);
 
       this.socket = io(url, {
