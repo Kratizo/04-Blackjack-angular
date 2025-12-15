@@ -18,6 +18,7 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
   gameStatus = signal<'connecting' | 'waiting' | 'playing' | 'game_over'>('connecting');
   connectionError = signal<string | null>(null);
   myId = signal<string>('');
+  rematchRequested = signal(false);
 
   // Game State
   players = signal<any>({}); // { [id]: info }
@@ -85,6 +86,7 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
           if (data.scores) {
              this.scores.set(data.scores);
           }
+          this.rematchRequested.set(false);
           this.gameStatus.set('playing');
       });
 
@@ -121,6 +123,11 @@ export default class PvPPageComponent implements OnInit, OnDestroy {
       if (this.isMyTurn()) {
           this.pvpService.emit('stand');
       }
+  }
+
+  rematch() {
+      this.rematchRequested.set(true);
+      this.pvpService.emit('rematch');
   }
 
   goHome() {

@@ -102,7 +102,8 @@ io.on('connection', (socket) => {
                 hands: { [player1.id]: [], [player2.id]: [] },
                 turn: player1.id, // Player 1 starts
                 status: 'playing',
-                stand: [] // IDs of players who stood
+                stand: [], // IDs of players who stood
+                rematchRequests: []
             };
 
             // Deal initial cards (2 each)
@@ -164,6 +165,23 @@ io.on('connection', (socket) => {
 
         game.stand.push(socket.id);
         switchTurn(roomID);
+    });
+
+    socket.on('rematch', () => {
+        const roomID = getRoomId(socket);
+        if (!roomID || !rooms[roomID]) return;
+        const game = rooms[roomID];
+
+        if (!game.rematchRequests.includes(socket.id)) {
+            game.rematchRequests.push(socket.id);
+        }
+
+        if (game.rematchRequests.length === 2) {
+            restartGame(roomID);
+        } else {
+             // Notify the other player?
+             // Simple implementation: just wait.
+        }
     });
 
     socket.on('disconnect', () => {
@@ -284,6 +302,46 @@ function endGame(roomID) {
 
     // Clean up or allow restart?
     // For now, just leave it. Clients can disconnect to restart.
+}
+
+function restartGame(roomID) {
+    const game = rooms[roomID];
+
+    // Reset state
+    game.deck = createDeck();
+    game.hands = { [game.players[0]]: [], [game.players[1]]: [] };
+    game.stand = [];
+    game.rematchRequests = [];
+    game.status = 'playing';
+
+    // Swap turn
+    const currentStarterIndex = game.players.indexOf(game.turn);
+    // Wait, game.turn might be anywhere if game ended.
+    // Let's just swap who started last time?
+    // We didn't track who started.
+    // Default: Swap from P1 to P2 or vice versa.
+    // game.players[0] started first game.
+    // Let's pick random or swap.
+    game.turn = game.players[Math.floor(Math.random() * 2)];
+
+    // Deal
+    dealCard(roomID, game.players[0]);
+    dealCard(roomID, game.players[1]);
+    dealCard(roomID, game.players[0]);
+    dealCard(roomID, game.players[1]);
+
+    io.to(roomID).emit('game_start', {
+        roomID,
+        players: game.playerData,
+        turn: game.turn,
+        hands: sanitizeHands(roomID),
+        scores: {
+            [game.players[0]]: calculateScore(game.hands[game.players[0]]),
+            [game.players[1]]: calculateScore(game.hands[game.players[1]])
+        }
+    });
+
+    console.log(`Game restarted in room ${roomID}`);
 }
 
 server.listen(PORT, '0.0.0.0', () => {

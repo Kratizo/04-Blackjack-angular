@@ -84,9 +84,23 @@
                           <p class="text-white text-lg">Suerte para la próxima.</p>
                       }
 
-                      <button (click)="goHome()" class="mt-6 px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition transform">
-                          Salir
-                      </button>
+                      <div class="flex gap-4 mt-6 justify-center">
+                          <button (click)="goHome()" class="px-6 py-3 bg-white text-black font-bold rounded-full hover:scale-105 transition transform">
+                              Salir
+                          </button>
+                          <button (click)="rematch()"
+                                  [disabled]="rematchRequested()"
+                                  class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-500 hover:scale-105 disabled:opacity-50 disabled:scale-100 disabled:cursor-wait transition transform">
+                              @if(rematchRequested()) {
+                                  <span class="flex items-center gap-2">
+                                      <span class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                                      Esperando...
+                                  </span>
+                              } @else {
+                                  Jugar de nuevo
+                              }
+                          </button>
+                      </div>
                   </div>
               </div>
           }
